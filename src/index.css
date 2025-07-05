@@ -1,0 +1,691 @@
+@import url("https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap");
+@import "tailwindcss";
+
+:root {
+    --gradient: radial-gradient(circle, #e5e5e5 0%, #fff 100%);
+}
+
+html,
+body {
+    width: 100dvw;
+    overflow-x: hidden;
+    background-color: #1a1a1a;
+    color: white;
+    scroll-behavior: smooth;
+    font-family: "Mona Sans", sans-serif;
+}
+
+section {
+    width: 100dvw;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+}
+
+@theme {
+    --font-sans: "Mona Sans", sans-serif;
+    --color-white-50: #d9ecff;
+    --color-black-50: #1d1d1d;
+    --color-black-100: #0e0e10;
+    --color-black-200: #282732;
+    --color-primary: #030412;
+    --color-midnight: #06091f;
+    --color-navy: #161a31;
+    --color-indigo: #1f1e39;
+    --color-storm: #282b4b;
+    --color-aqua: #33c2cc;
+    --color-mint: #57db96;
+    --color-royal: #5c33cc;
+    --color-lavender: #7a57db;
+    --color-fuchsia: #ca2f8c;
+    --color-orange: #cc6033;
+    --color-sand: #d6995c;
+    --color-coral: #ea4884;
+
+    /* Performance optimization custom properties */
+    --transform-gpu: translate3d(0, 0, 0);
+    --backface-hidden: hidden;
+    --perspective-1000: 1000px;
+    --perspective-2000: 2000px;
+    --perspective-800: 800px;
+    --perspective-1200: 1200px;
+    --perspective-500: 500px;
+    --perspective-400: 400px;
+}
+
+/* Custom Tailwind utilities for performance */
+@utility transform-gpu {
+    transform: translate3d(0, 0, 0);
+    transform-style: preserve-3d;
+}
+
+@utility backface-hidden {
+    backface-visibility: hidden;
+}
+
+@utility perspective-1000 {
+    perspective: 1000px;
+}
+
+@utility perspective-2000 {
+    perspective: 2000px;
+}
+
+@utility perspective-800 {
+    perspective: 800px;
+}
+
+@utility perspective-1200 {
+    perspective: 1200px;
+}
+
+@utility perspective-500 {
+    perspective: 500px;
+}
+
+@utility perspective-400 {
+    perspective: 400px;
+}
+
+@utility preserve-3d {
+    transform-style: preserve-3d;
+}
+
+@utility will-change-transform-opacity {
+    will-change: transform, opacity;
+}
+
+/* Enhanced name animation performance */
+.name-animation {
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.job-title {
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Enhanced grid animations with 3D perspective */
+.grid-from-left,
+.grid-from-right {
+    @apply preserve-3d backface-hidden perspective-1000 will-change-transform-opacity;
+}
+
+.c-space {
+    @apply sm:px-10 px-5 lg:px-15 sm:mb-10 lg:mb-20 transform-gpu;
+}
+
+/* Enhanced section performance */
+.section-spacing {
+    @apply min-h-screen mt-10 md:mt-20 preserve-3d perspective-2000;
+}
+
+.text-heading {
+    @apply font-bold text-3xl md:text-4xl transform-gpu backface-hidden;
+}
+
+.headtext {
+    @apply mt-2 mb-2 text-xl;
+}
+
+.subtext {
+    @apply text-neutral-400 text-sm md:text-base text-pretty;
+}
+
+/* About Section Grid Items */
+.grid-1 {
+    @apply row-span-2 md:col-span-3 h-[15rem] md:h-full relative overflow-hidden hover:-translate-y-1 duration-200 transform-gpu preserve-3d backface-hidden perspective-800 transition-transform;
+}
+.grid-2 {
+    @apply row-span-1 md:col-span-3 h-[15rem] md:h-full relative overflow-hidden hover:-translate-y-1 duration-200 transform-gpu preserve-3d backface-hidden perspective-800 transition-transform;
+}
+.grid-3 {
+    @apply row-span-1 md:col-span-3 h-[15rem] md:h-full relative overflow-hidden hover:-translate-y-1 duration-200 transform-gpu preserve-3d backface-hidden perspective-800 transition-transform;
+}
+.grid-4 {
+    @apply row-span-1 md:col-span-2 h-[15rem] md:h-full relative overflow-hidden hover:-translate-y-1 duration-200 transform-gpu preserve-3d backface-hidden perspective-800 transition-transform;
+}
+.grid-5 {
+    @apply row-span-1 md:col-span-4 h-[15rem] md:h-full relative overflow-hidden hover:-translate-y-1 duration-200 p-6 bg-gradient-to-tl from-[#3A3A3A] via-[#1F1F1F] to-[#3A3A3A] rounded-2xl transform-gpu preserve-3d;
+}
+
+/* Grid hover enhancement */
+.grid-1:hover, .grid-2:hover, .grid-3:hover, .grid-4:hover, .grid-5:hover {
+    @apply -translate-y-1 scale-[1.02] shadow-2xl;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.grid-default-color {
+    @apply p-6 bg-gradient-to-b from-gray-700 to-gray-900 rounded-2xl;
+}
+
+.grid-special-color {
+    @apply p-6 bg-gradient-to-br from-indigo-900 via-violet-900 to-slate-900 rounded-2xl;
+}
+
+.grid-black-color {
+    @apply p-6 bg-gradient-to-tl from-[#3A3A3A] via-[#242424] to-[#3A3A3A] rounded-2xl;
+}
+
+/* Enhanced card animations within grid 2 */
+.grid-2 .flex {
+    @apply preserve-3d perspective-1200;
+}
+
+/* Globe container optimization */
+.grid-3 figure {
+    @apply preserve-3d backface-hidden transform-gpu;
+}
+
+/* Toolbox items container optimization */
+.grid-5 {
+    @apply overflow-hidden preserve-3d;
+}
+
+/* Navbar */
+.navbar {
+    @apply fixed w-full left-1/2 py-5 px-5 md:px-20 -translate-x-1/2 z-[100] transition-all duration-300 ease-in-out transform-gpu;
+
+    &.scrolled {
+        @apply top-0 bg-[#1a1a1a];
+    }
+
+    &.not-scrolled {
+        @apply top-0 bg-transparent;
+    }
+
+    .inner {
+        @apply mx-auto flex items-center justify-between;
+    }
+
+    .logo {
+        @apply text-white-50 text-xl md:text-2xl font-semibold transition-transform duration-300 hover:scale-105;
+    }
+
+    nav.desktop {
+        @apply hidden lg:flex items-center;
+
+        ul {
+            @apply flex space-x-8;
+
+            li {
+                @apply text-white-50 relative;
+
+                span {
+                    @apply transition-colors duration-300 hover:text-white;
+                }
+
+                .underline {
+                    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full;
+                }
+            }
+        }
+    }
+
+    .contact-btn {
+        @apply flex;
+
+        .inner {
+            @apply px-5 py-2 rounded-lg bg-white text-black group-hover:bg-black-50 transition-colors duration-300;
+
+            span {
+                @apply group-hover:text-white transition-colors duration-300;
+            }
+        }
+    }
+}
+
+.navbar.navbar-hidden {
+    top: -80px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(-100%) !important;
+}
+
+.navbar.navbar-visible {
+    top: 0;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* PROJECTS SECTION */
+.projects-fullscreen {
+    @apply w-full h-screen relative overflow-hidden;
+}
+
+/* Fixed Header */
+.projects-header {
+    @apply fixed top-0 left-0 w-full z-50 bg-[#1a1a1a] pt-8 md:pt-16 transition-all duration-300 ease-out;
+    transform-origin: center top;
+}
+
+.projects-header-content {
+    @apply flex flex-col sm:flex-row justify-between items-start sm:items-center mx-10 md:mx-20 px-6 sm:px-8 lg:px-12 py-4 sm:py-5 gap-4 sm:gap-0;
+}
+
+.projects-title {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight;
+}
+
+.projects-view-all-btn {
+    @apply px-5 py-2 rounded-lg bg-white text-black border border-transparent hover:bg-black-50 hover:text-white hover:border-white transition-colors duration-300;
+}
+
+/* Projects Scroll Container */
+.projects-scroll-container {
+    @apply flex flex-col pt-8 sm:pt-12 lg:pt-16;
+}
+
+/* Individual Project Cards */
+.project-fullscreen-card {
+    @apply w-full h-screen flex items-center justify-center flex-shrink-0 px-4 sm:px-6 lg:px-8;
+}
+
+/* Project Card Container */
+.project-card-container {
+    @apply w-full max-w-sm sm:max-w-md md:max-w-3xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl h-[70vh] bg-[#2D2D2D] flex flex-col md:flex-row transition-all duration-500 ease-out hover:bg-white-50 overflow-hidden shadow-2xl;
+}
+
+/* Progress Indicators */
+.projects-progress-wrapper {
+    @apply fixed bottom-6 sm:bottom-8 lg:bottom-10 left-1/2 transform -translate-x-1/2 z-50;
+}
+
+.projects-progress-container {
+    @apply flex space-x-2 sm:space-x-3;
+}
+
+.projects-progress-bar {
+    @apply w-12 sm:w-16 lg:w-20 h-1 bg-gray-700 rounded-full overflow-hidden;
+}
+
+.projects-progress-fill {
+    @apply h-full bg-white rounded-full w-0 transition-all duration-500 ease-out;
+}
+
+/* Project Image Section */
+.project-image-section {
+    @apply w-full md:w-1/2 h-1/2 md:h-full flex items-center justify-center;
+}
+
+.project-image-wrapper {
+    @apply w-full h-full relative overflow-hidden;
+}
+
+.project-image {
+    @apply w-full h-full object-cover;
+}
+
+.project-content-section {
+    @apply w-full md:w-1/2 h-1/2 md:h-full flex flex-col p-6 sm:p-8 lg:p-12 text-white group-hover:text-black transition-colors duration-500;
+}
+
+.project-content-wrapper {
+    @apply max-w-lg h-full text-left flex flex-col justify-between;
+}
+
+.project-content-top {
+    @apply flex flex-col;
+}
+
+.project-content-bottom {
+    @apply flex flex-col;
+}
+
+.project-date {
+    @apply group-hover:text-black text-sm sm:text-base font-medium mb-2 transition-colors duration-500;
+}
+
+.project-title-main {
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 leading-tight group-hover:text-black transition-colors duration-500;
+}
+
+.project-description {
+    @apply text-sm sm:text-base group-hover:text-black mb-4 sm:mb-6 leading-relaxed transition-colors duration-500;
+}
+
+.project-website-link {
+    @apply inline-flex items-center gap-2 underline text-white group-hover:text-blue-400 font-semibold rounded-lg transition-all duration-500 hover:scale-105 text-sm sm:text-base;
+}
+
+.project-btn-icon {
+    @apply w-4 h-4;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .grid-from-left,
+    .grid-from-right {
+        @apply perspective-500;
+    }
+
+    .grid-1, .grid-2, .grid-3, .grid-4, .grid-5 {
+        @apply perspective-400;
+    }
+}
+
+/* Optimize gradients for better performance */
+.bg-gradient-to-tr {
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+}
+
+/* Optimize for better text rendering */
+.font-extrabold {
+    font-display: swap;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reduce motion for accessibility and performance */
+@media (prefers-reduced-motion: reduce) {
+    .name-animation,
+    .job-title,
+    .grid-from-left,
+    .grid-from-right,
+    .grid-1, .grid-2, .grid-3, .grid-4, .grid-5,
+    .project-card-container,
+    .project-content-section,
+    .project-date,
+    .project-description,
+    .project-website-link,
+    .project-title-main {
+        @apply transition-none;
+        animation: none !important;
+        transform: none !important;
+    }
+}
+
+/* LogoSection Styles */
+.marquee-item {
+    @apply flex-shrink-0 flex items-center gap-3 md:min-w-40 min-w-32;
+}
+
+.marquee {
+    width: 100dvw;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.marquee-box {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    height: 100%;
+    animation: marquee 80s linear infinite;
+    padding: 0 2rem;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.gradient-edge {
+    @apply w-20 h-full absolute top-0 z-20 pointer-events-none;
+}
+
+.gradient-edge:nth-of-type(1) {
+    left: 0;
+    background: linear-gradient(
+            90deg,
+            rgba(26, 26, 26, 1) 0%,
+            rgba(26, 26, 26, 0.7) 60%,
+            rgba(26, 26, 26, 0) 100%
+    );
+}
+
+.gradient-edge:nth-of-type(2) {
+    right: 0;
+    background: linear-gradient(
+            -90deg,
+            rgba(26, 26, 26, 1) 0%,
+            rgba(26, 26, 26, 0.7) 60%,
+            rgba(26, 26, 26, 0) 100%
+    );
+}
+
+/* FeaturedCards Styles */
+.padding-x-lg {
+    @apply px-5 md:px-20;
+}
+
+.grid-3-cols {
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6;
+}
+
+.card-border {
+    @apply border border-black-50;
+    background-color: #242424; /* Your specified background color */
+}
+
+.section-padding {
+    @apply px-5 md:px-10 md:mt-40 mt-20;
+}
+
+.hero-badge {
+    @apply bg-black-200 py-2 px-4 rounded-full w-fit text-sm md:text-base text-nowrap;
+}
+
+/* Main timeline wrapper - starts from first logo position */
+.timeline-wrapper {
+    @apply absolute left-1/2 z-10;
+    top: 0.5rem; /* Start from same position as first logo */
+    height: calc(100% - 0.5rem); /* Adjust height accordingly */
+    transform: translateX(-50%);
+}
+
+/* The main vertical gradient line - blue to white-50 */
+.gradient-line {
+    @apply w-0.5 h-full relative;
+    background: linear-gradient(
+            180deg,
+            transparent 0%,
+            #3b82f6 20%,
+            #3b82f6 40%,
+            #d9ecff 60%,
+            #d9ecff 80%,
+            transparent 100%
+    );
+    /* Simple blue glow effect */
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+    filter: blur(0.3px);
+}
+
+/* Timeline logo container - positions logos aligned with job titles */
+.timeline-logo-container {
+    @apply absolute left-1/2 top-0 transform -translate-x-1/2 z-20;
+    /* Show on all screen sizes, not just xl */
+    margin-top: 0.5rem; /* Adjust this to align perfectly with h1 */
+}
+
+/* Individual timeline logo styling with your dark theme */
+.timeline-logo {
+    @apply w-16 h-16 rounded-full border-4 overflow-hidden;
+    @apply flex items-center justify-center;
+    border-color: #333333; /* Darker than #1a1a1a */
+    background-color: #2a2a2a; /* Slightly lighter than #1a1a1a */
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+/* Experience card wrapper - creates the 3-column layout */
+.exp-card-wrapper {
+    @apply relative flex flex-col xl:flex-row xl:items-center xl:justify-between;
+    @apply xl:gap-8 gap-8;
+}
+
+/* Mobile adjustments */
+@media (max-width: 1279px) {
+    .exp-card-wrapper {
+        @apply flex-col space-y-6;
+    }
+
+    .timeline-wrapper {
+        @apply hidden; /* Hide timeline on mobile */
+    }
+
+    .expText {
+        @apply mt-0;
+    }
+}
+
+/* Glow card effects with your theme colors */
+.card {
+    --start: 0;
+    position: relative;
+    z-index: 40;
+    overflow: hidden;
+    transition: border-color 1s ease-in-out;
+    background-color: #242424; /* Your specified background color */
+}
+
+.card::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 12px;
+    border: 2px solid transparent;
+    background: white; /* Simple white glow instead of gradient */
+    mask: linear-gradient(#0000, #0000),
+    conic-gradient(
+            from calc((var(--start) - 15) * 1deg),
+            rgba(255,255,255,0.1) 0deg,
+            white,
+            rgba(255,255,255,0) 100deg
+    );
+    mask-composite: intersect;
+    mask-clip: padding-box, border-box;
+    opacity: 0;
+    transition: 0.5s ease;
+}
+
+.glow {
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(8px) saturate(150%);
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.flex-center {
+    @apply flex justify-center items-center;
+}
+
+.tech-card-animated-bg {
+    @apply absolute left-0 bottom-[-100%] w-full h-full bg-[#2D3240] group-hover:bottom-0 transition-all duration-700;
+}
+
+.tech-card-content {
+    @apply flex flex-col md:justify-center items-center xl:gap-5 xl:h-[50vh] overflow-hidden relative z-10 group-hover:cursor-grab;
+
+    & p {
+        @apply text-lg 2xl:text-2xl pb-5 xl:pb-0 font-semibold text-white-50 text-center;
+    }
+}
+
+.tech-icon-wrapper {
+    @apply flex justify-center items-center w-52 h-60 relative;
+}
+
+.padding-x {
+    @apply px-5 md:px-10;
+}
+
+.padding-x-lg {
+    @apply px-5 md:px-20;
+}
+
+.tech-grid {
+    @apply grid xl:grid-cols-5 md:grid-cols-3 grid-cols-1 xl:gap-16 md:gap-10 gap-5 mt-16;
+}
+
+.cta-button {
+    @apply px-4 py-4 rounded-lg bg-black-200 flex justify-center items-center relative cursor-pointer overflow-hidden;
+
+    .bg-circle {
+        @apply absolute -right-10 origin-center top-1/2 -translate-y-1/2
+        w-[120%] h-[120%] group-hover:size-10 group-hover:right-10
+        rounded-full bg-white-50 transition-all duration-500;
+    }
+
+    .text {
+        @apply uppercase md:text-lg text-black transition-all duration-500
+        group-hover:text-white-50 group-hover:-translate-x-5 xl:translate-x-0 -translate-x-5;
+    }
+
+    .arrow-wrapper {
+        @apply group-hover:bg-white-50 size-10 rounded-full absolute right-10 top-1/2
+        -translate-y-1/2 flex justify-center items-center overflow-hidden;
+
+        img {
+            @apply size-5 xl:-translate-y-32 translate-y-0 animate-bounce group-hover:translate-y-0 transition-all duration-500;
+        }
+    }
+}
+
+.grid-12-cols {
+    @apply grid grid-cols-1 xl:grid-cols-12 gap-10;
+}
+
+ form {
+    label {
+        @apply block text-white-50 mb-2 ;
+    }
+
+    input,
+    textarea {
+        @apply w-full px-4 py-4 md:text-base text-sm placeholder:text-blue-50 bg-black-200 rounded-md;
+    }
+
+    a {
+        @apply w-full py-4 bg-white text-black font-semibold rounded-md flex justify-center items-center gap-2;
+
+        img {
+            @apply inline-block;
+        }
+    }
+}
+
+.footer {
+    @apply my-10 md:mt-20 mt-10 text-white-50 px-5 md:px-20 xl:px-20 flex items-center justify-center;
+
+    .footer-container {
+        @apply grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0 w-full;
+    }
+
+    /* Remove the conflicting p styles */
+
+    .socials {
+        @apply flex items-center justify-center gap-5;
+
+        .icon {
+            @apply border border-black-50 bg-black-100 flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500 hover:bg-black-50;
+        }
+
+        img {
+            @apply inline-block;
+        }
+    }
+}
