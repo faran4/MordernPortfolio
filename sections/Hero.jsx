@@ -17,11 +17,6 @@ const Hero = () => {
         let ctx = gsap.context(() => {
             const tl = gsap.timeline();
 
-            // First: Load heavy components when name animation starts
-            tl.call(() => {
-                setShowHeavyComponents(true);
-            }, null, 0.5); // Load heavy components right when name starts
-
             // Your original name animation
             tl.fromTo(".name-animation", {
                     x: -100, opacity: 0, rotate: -10
@@ -55,6 +50,11 @@ const Hero = () => {
                 }
             );
 
+            // after job-title animation finishes, add this:
+            tl.call(() => {
+                setShowHeavyComponents(true);
+            });
+
         }, component);
         return () => ctx.revert();
     }, []);
@@ -69,7 +69,7 @@ const Hero = () => {
     }
 
     return (
-        <section ref={component} className="relative px-4 py-10 md:px-6 md:py-14 lg:py-16 min-h-screen overflow-hidden">
+        <section ref={component} id="hero" className="relative px-4 py-10 md:px-6 md:py-14 lg:py-16 min-h-screen overflow-hidden">
             {/* Spotlight loads immediately but optimized */}
             <Spotlight
                 duration={12}
