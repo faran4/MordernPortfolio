@@ -2,14 +2,14 @@ import React from 'react';
 import * as THREE from 'three';
 import {Canvas} from '@react-three/fiber';
 import {ContactShadows, Float, Environment} from "@react-three/drei";
-import {Suspense, useEffect, useRef, useState} from "react";
+import {Suspense, useRef, useState} from "react";
 import {gsap} from "gsap";
 import {useGSAP} from '@gsap/react';
 
 const Shapes = () => {
     return (
         <div className="row-span-1 row-start-1 -mt-9 aspect-square md:col-span-1 md:col-start-2 md:mt-0">
-            <Canvas className="z-0" shadows gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }} dpr={[1, 1.5]} camera={{
+            <Canvas className="z-0" shadows gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }} dpr={[1, 2]} camera={{
                 position: [0, 0, 25], fov: 30,
                 near: 1, far: 40
             }}>
@@ -21,7 +21,10 @@ const Shapes = () => {
                         scale={40}
                         blur={1}
                         far={9}/>
-                    <ambientLight intensity={0.6} />
+                    <ambientLight intensity={0.8} />
+                    <directionalLight position={[10, 10, 5]} intensity={1.5} castShadow />
+                    <directionalLight position={[-10, -10, -5]} intensity={0.5} />
+                    <pointLight position={[0, 10, 0]} intensity={0.5} />
                     <Environment files="/hdri/studio2_4k.hdr" />
                 </Suspense>
             </Canvas>
@@ -171,8 +174,8 @@ function Geometry({ r, position, geometry, materials, soundEffects }) {
             x: `+=${gsap.utils.random(0, 2)}`,
             y: `+=${gsap.utils.random(0, 2)}`,
             z: `+=${gsap.utils.random(0, 2)}`,
-            duration: 1.5,
-            ease: "elastic.out(1, 0.3)",
+            duration: 1.0,
+            ease: "elastic.out(1, 0.4)",
             yoyo: true,
         });
 
@@ -204,7 +207,11 @@ function Geometry({ r, position, geometry, materials, soundEffects }) {
 
     return (
         <group position={position} ref={meshRef}>
-            <Float speed={5 * r} rotationIntensity={6 * r} floatIntensity={5 * r}>
+            <Float
+                speed={8 * r}
+                rotationIntensity={10 * r}
+                floatIntensity={8 * r}
+            >
                 <mesh
                     geometry={geometry}
                     onClick={handleClick}

@@ -7,8 +7,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
     const sectionRef = useRef(null);
-    const projectsContainerRef = useRef(null);
-    const headerRef = useRef(null);
+    const titleRef = useRef(null);
+    const containerRef = useRef(null);
+    const projectsWrapperRef = useRef(null);
 
     const projects = [
         {
@@ -17,7 +18,8 @@ const Projects = () => {
             title: "Modern Userfriendly Taxi-App ReactNative",
             description: "An app built with ReactNative, Expo, & TailwindCss for a fast, User-friendly experience.",
             image: "/project1.png",
-            alt: "Ryde"
+            alt: "Ryde",
+            link: "#"
         },
         {
             id: 2,
@@ -25,7 +27,8 @@ const Projects = () => {
             title: "Library Management Platform",
             description: "A comprehensive digital solution for managing library resources, book cataloging, and user management with an intuitive interface.",
             image: "/project2.png",
-            alt: "Library Management Platform"
+            alt: "Library Management Platform",
+            link: "#"
         },
         {
             id: 3,
@@ -33,218 +36,247 @@ const Projects = () => {
             title: "YC Directory - A Startup Showcase App",
             description: "A modern platform showcasing Y Combinator startups with detailed profiles, filtering capabilities, and real-time updates.",
             image: "/project3.png",
-            alt: "YC Directory"
+            alt: "YC Directory",
+            link: "#"
         }
     ];
 
     useGSAP(() => {
-        // 1. Section entrance animation
-        gsap.fromTo(sectionRef.current,
-            {
-                opacity: 0,
-                y: 50
-            },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 90%",
-                    toggleActions: "play none none reverse"
+        const mm = gsap.matchMedia();
+
+        mm.add("(min-width: 768px)", () => {
+            // Clear any existing animations
+            ScrollTrigger.getAll().forEach(trigger => {
+                if (trigger.trigger === sectionRef.current ||
+                    trigger.trigger === containerRef.current ||
+                    trigger.trigger === titleRef.current) {
+                    trigger.kill();
                 }
-            }
-        );
+            });
 
-        // 2. Header animation - appears when section starts
-        gsap.fromTo(headerRef.current,
-            { y: -50, opacity: 0 },
-            {
-                y: 0,
-                opacity: 1,
-                duration: 0.6,
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        );
-
-        // 3. Main pinning animation - starts right after header appears
-        const totalDistance = (projects.length - 1) * 100;
-
-        ScrollTrigger.create({
-            trigger: sectionRef.current,
-            start: "top top",
-            end: () => `+=${window.innerHeight * projects.length * 0.8}`, // Reduced multiplier for smoother transition
-            pin: true,
-            scrub: 1,
-            animation: gsap.to(projectsContainerRef.current, {
-                y: `-${totalDistance}vh`,
-                ease: "none"
-            }),
-            onUpdate: (self) => {
-                const progress = self.progress;
-
-                // Update progress indicators
-                projects.forEach((_, index) => {
-                    const progressBar = document.querySelector(`[data-progress="${index}"] .projects-progress-fill`);
-                    if (progressBar) {
-                        const progressValue = Math.max(0, Math.min(100, (progress * projects.length - index) * 100));
-                        gsap.to(progressBar, {
-                            width: `${progressValue}%`,
-                            duration: 0.1
-                        });
+            // 1. Title fade in animation
+            gsap.fromTo(titleRef.current,
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: titleRef.current,
+                        start: "top 80%",
+                        end: "bottom 60%",
+                        toggleActions: "play none none reverse"
                     }
-                });
+                }
+            );
 
-                // Animate each project as it comes into view
-                projects.forEach((project, index) => {
-                    const projectElement = document.querySelector(`[data-project-id="${project.id}"]`);
-                    if (projectElement) {
-                        const projectProgress = (progress * projects.length) - index;
+            // 2. Wait for title animation then setup horizontal scroll
+            gsap.delayedCall(0.5, () => {
+                const panels = gsap.utils.toArray(".project-panel");
 
-                        if (projectProgress >= 0 && projectProgress <= 1) {
-                            // Project is active
-                            gsap.to(projectElement, {
-                                opacity: 1,
-                                scale: 1,
-                                duration: 0.3
-                            });
-                        } else if (projectProgress > 1) {
-                            // Project has passed
-                            gsap.to(projectElement, {
-                                opacity: 0.3,
-                                scale: 0.95,
-                                duration: 0.3
-                            });
-                        } else {
-                            // Project is coming
-                            gsap.to(projectElement, {
-                                opacity: 0,
-                                scale: 0.9,
-                                duration: 0.3
-                            });
+                // Set initial state for all panels
+                gsap.set(panels, { opacity: 1 });
+
+                // Calculate total scroll distance
+                const totalWidth = panels.length * window.innerWidth;
+                const scrollDistance = totalWidth - window.innerWidth;
+
+                // Create horizontal scroll animation
+                const horizontalTween = gsap.to(projectsWrapperRef.current, {
+                    x: -scrollDistance,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        start: "top top",
+                        end: () => `+=${scrollDistance}`,
+                        scrub: 1,
+                        pin: true,
+                        anticipatePin: 1,
+                        invalidateOnRefresh: true,
+                        onRefresh: () => {
+                            // Recalculate on window resize
+                            const newTotalWidth = panels.length * window.innerWidth;
+                            const newScrollDistance = newTotalWidth - window.innerWidth;
+                            horizontalTween.vars.x = -newScrollDistance;
                         }
                     }
                 });
-            }
-        });
 
-        // 4. Initialize project states
-        projects.forEach((project, index) => {
-            const projectElement = document.querySelector(`[data-project-id="${project.id}"]`);
-            if (projectElement) {
-                gsap.set(projectElement, {
-                    opacity: index === 0 ? 1 : 0,
-                    scale: index === 0 ? 1 : 0.9
+                // Progress indicators
+                ScrollTrigger.create({
+                    trigger: containerRef.current,
+                    start: "top top",
+                    end: () => `+=${scrollDistance}`,
+                    scrub: true,
+                    onUpdate: (self) => {
+                        const progress = self.progress;
+                        const currentIndex = Math.min(
+                            Math.floor(progress * panels.length),
+                            panels.length - 1
+                        );
+
+                        // Update progress dots
+                        document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                            dot.classList.toggle('active', index === currentIndex);
+                        });
+                    }
                 });
-            }
+            });
         });
 
-    }, { scope: sectionRef });
+        // Mobile behavior - simple vertical scroll
+        mm.add("(max-width: 767px)", () => {
+            // Clear desktop animations
+            ScrollTrigger.getAll().forEach(trigger => {
+                if (trigger.trigger === containerRef.current) {
+                    trigger.kill();
+                }
+            });
+
+            // Title animation for mobile
+            gsap.fromTo(titleRef.current,
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: titleRef.current,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+
+            // Animate each project panel individually
+            gsap.utils.toArray(".project-panel").forEach((panel, index) => {
+                gsap.fromTo(panel,
+                    { opacity: 0, y: 50 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        delay: index * 0.1,
+                        scrollTrigger: {
+                            trigger: panel,
+                            start: "top 80%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+        });
+
+        // Cleanup function
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => {
+                if (trigger.trigger === sectionRef.current ||
+                    trigger.trigger === containerRef.current ||
+                    trigger.trigger === titleRef.current) {
+                    trigger.kill();
+                }
+            });
+        };
+
+    }, { scope: sectionRef, dependencies: [projects.length] });
 
     return (
-        <section
-            id="work"
-            ref={sectionRef}
-            className="projects-fullscreen"
-        >
-            {/* Fixed Header */}
-            <div
-                ref={headerRef}
-                className="projects-header"
-            >
-                <div className="projects-header-content">
-                    <h1 className="projects-title">
-                        My Projects
-                    </h1>
-                    <button className="projects-view-all-btn">
-                        View All Projects →
-                    </button>
-                </div>
+        <section ref={sectionRef} className="relative">
+            {/* Title Section */}
+            <div ref={titleRef} className="c-space py-20">
+                <h2 className="projects-title mb-4">My Projects</h2>
+                <p className="text-neutral-400 max-w-2xl">
+                    Here are some of my recent projects that showcase my skills in web and mobile development.
+                </p>
             </div>
 
             {/* Projects Container */}
-            <div
-                ref={projectsContainerRef}
-                className="projects-scroll-container"
-            >
-                {projects.map((project, index) => (
-                    <div
-                        key={project.id}
-                        data-project-id={project.id}
-                        className="project-fullscreen-card group"
-                    >
-                        {/* Project Card Container */}
-                        <div className="project-card-container">
-                            {/* Content Side - Always on left, 50% width */}
-                            <div className="project-content-section">
-                                <div className="project-content-wrapper">
-                                    {/* Top Section - Date and Title */}
-                                    <div className="project-content-top">
-                                        <p className="project-date">
-                                            {project.date}
-                                        </p>
-                                        <h2 className="project-title-main">
+            <div ref={containerRef} className="relative bg-black-100 md:h-screen overflow-hidden">
+                <div
+                    ref={projectsWrapperRef}
+                    className="flex md:h-full md:w-max"
+                    style={{ width: `${projects.length * 100}vw` }}
+                >
+                    {projects.map((project, index) => (
+                        <div
+                            key={project.id}
+                            className="project-panel w-screen md:h-full flex-shrink-0 flex items-center justify-center px-5 md:px-20 py-10 md:py-0"
+                        >
+                            <div className="w-full max-w-7xl mx-auto">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                                    {/* Content */}
+                                    <div className="order-2 lg:order-1">
+                                        <p className="text-neutral-400 mb-2">{project.date}</p>
+                                        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
                                             {project.title}
-                                        </h2>
-                                    </div>
-
-                                    {/* Bottom Section - Description and Link */}
-                                    <div className="project-content-bottom">
-                                        <p className="project-description">
+                                        </h3>
+                                        <p className="text-neutral-300 text-lg mb-8 leading-relaxed">
                                             {project.description}
                                         </p>
-
-                                        <div className="project-website-link">
-                                            See the Website
+                                        <a
+                                            href={project.link}
+                                            className="inline-flex items-center gap-2 text-white hover:text-neutral-300 transition-colors group"
+                                        >
+                                            <span className="text-lg font-medium">View Project</span>
                                             <svg
-                                                width="16"
-                                                height="16"
+                                                width="20"
+                                                height="20"
                                                 viewBox="0 0 24 24"
                                                 fill="none"
                                                 stroke="currentColor"
                                                 strokeWidth="2"
-                                                className="project-btn-icon"
+                                                className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
                                             >
                                                 <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                             </svg>
+                                        </a>
+                                    </div>
+
+                                    {/* Image */}
+                                    <div className="order-1 lg:order-2">
+                                        <div className="relative aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-neutral-800 to-neutral-900">
+                                            <img
+                                                src={project.image}
+                                                alt={project.alt}
+                                                className="w-full h-full object-cover"
+                                                loading="lazy"
+                                            />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            {/* Image Side - Always on right, 50% width, no padding */}
-                            <div className="project-image-section">
-                                <div className="project-image-wrapper">
-                                    <img
-                                        src={project.image}
-                                        alt={project.alt}
-                                        className="project-image"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* Progress Indicators */}
-            <div className="projects-progress-wrapper">
-                <div className="projects-progress-container">
-                    {projects.map((_, index) => (
-                        <div
-                            key={index}
-                            data-progress={index}
-                            className="projects-progress-bar"
-                        >
-                            <div className="projects-progress-fill"></div>
                         </div>
                     ))}
                 </div>
+
+                {/* Progress Indicators - Only show on desktop */}
+                <div className="hidden md:flex absolute bottom-10 left-1/2 -translate-x-1/2 gap-3 z-10">
+                    {projects.map((_, index) => (
+                        <div
+                            key={index}
+                            className={`progress-dot w-2 h-2 rounded-full bg-white/30 transition-all duration-300 ${
+                                index === 0 ? 'active' : ''
+                            }`}
+                        />
+                    ))}
+                </div>
             </div>
+
+            {/* View All Projects Button */}
+            <div className="c-space py-10 text-center">
+                <button className="px-8 py-3 bg-white text-black rounded-lg hover:bg-neutral-200 transition-colors">
+                    View All Projects →
+                </button>
+            </div>
+
+            <style jsx>{`
+                .progress-dot.active {
+                    width: 2rem !important;
+                    background-color: white !important;
+                }
+            `}</style>
         </section>
     );
 };
