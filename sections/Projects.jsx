@@ -8,8 +8,6 @@ gsap.registerPlugin(ScrollTrigger);
 const Projects = () => {
     const sectionRef = useRef(null);
     const titleRef = useRef(null);
-    const containerRef = useRef(null);
-    const projectsWrapperRef = useRef(null);
 
     const projects = [
         {
@@ -19,7 +17,8 @@ const Projects = () => {
             description: "An app built with ReactNative, Expo, & TailwindCss for a fast, User-friendly experience.",
             image: "/project1.png",
             alt: "Ryde",
-            link: "#"
+            link: "#",
+            tech: ["React Native", "Expo", "TailwindCSS"]
         },
         {
             id: 2,
@@ -28,7 +27,8 @@ const Projects = () => {
             description: "A comprehensive digital solution for managing library resources, book cataloging, and user management with an intuitive interface.",
             image: "/project2.png",
             alt: "Library Management Platform",
-            link: "#"
+            link: "#",
+            tech: ["React", "Node.js", "MongoDB"]
         },
         {
             id: 3,
@@ -37,246 +37,192 @@ const Projects = () => {
             description: "A modern platform showcasing Y Combinator startups with detailed profiles, filtering capabilities, and real-time updates.",
             image: "/project3.png",
             alt: "YC Directory",
-            link: "#"
+            link: "#",
+            tech: ["Next.js", "TypeScript", "Prisma"]
         }
     ];
 
     useGSAP(() => {
-        const mm = gsap.matchMedia();
-
-        mm.add("(min-width: 768px)", () => {
-            // Clear any existing animations
-            ScrollTrigger.getAll().forEach(trigger => {
-                if (trigger.trigger === sectionRef.current ||
-                    trigger.trigger === containerRef.current ||
-                    trigger.trigger === titleRef.current) {
-                    trigger.kill();
+        // Title animation
+        gsap.fromTo(titleRef.current,
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: titleRef.current,
+                    start: "top 80%",
+                    once: true
                 }
-            });
+            }
+        );
 
-            // 1. Title fade in animation
-            gsap.fromTo(titleRef.current,
-                { opacity: 0, y: 50 },
+        // Simple fade in for each project card
+        gsap.utils.toArray(".project-item").forEach((item, index) => {
+            gsap.fromTo(item,
+                {
+                    opacity: 0,
+                    y: 50
+                },
                 {
                     opacity: 1,
                     y: 0,
                     duration: 1,
+                    delay: index * 0.15,
                     ease: "power2.out",
                     scrollTrigger: {
-                        trigger: titleRef.current,
+                        trigger: item,
                         start: "top 80%",
-                        end: "bottom 60%",
-                        toggleActions: "play none none reverse"
+                        once: true
                     }
                 }
             );
-
-            // 2. Wait for title animation then setup horizontal scroll
-            gsap.delayedCall(0.5, () => {
-                const panels = gsap.utils.toArray(".project-panel");
-
-                // Set initial state for all panels
-                gsap.set(panels, { opacity: 1 });
-
-                // Calculate total scroll distance
-                const totalWidth = panels.length * window.innerWidth;
-                const scrollDistance = totalWidth - window.innerWidth;
-
-                // Create horizontal scroll animation
-                const horizontalTween = gsap.to(projectsWrapperRef.current, {
-                    x: -scrollDistance,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: containerRef.current,
-                        start: "top top",
-                        end: () => `+=${scrollDistance}`,
-                        scrub: 1,
-                        pin: true,
-                        anticipatePin: 1,
-                        invalidateOnRefresh: true,
-                        onRefresh: () => {
-                            // Recalculate on window resize
-                            const newTotalWidth = panels.length * window.innerWidth;
-                            const newScrollDistance = newTotalWidth - window.innerWidth;
-                            horizontalTween.vars.x = -newScrollDistance;
-                        }
-                    }
-                });
-
-                // Progress indicators
-                ScrollTrigger.create({
-                    trigger: containerRef.current,
-                    start: "top top",
-                    end: () => `+=${scrollDistance}`,
-                    scrub: true,
-                    onUpdate: (self) => {
-                        const progress = self.progress;
-                        const currentIndex = Math.min(
-                            Math.floor(progress * panels.length),
-                            panels.length - 1
-                        );
-
-                        // Update progress dots
-                        document.querySelectorAll('.progress-dot').forEach((dot, index) => {
-                            dot.classList.toggle('active', index === currentIndex);
-                        });
-                    }
-                });
-            });
         });
 
-        // Mobile behavior - simple vertical scroll
-        mm.add("(max-width: 767px)", () => {
-            // Clear desktop animations
-            ScrollTrigger.getAll().forEach(trigger => {
-                if (trigger.trigger === containerRef.current) {
-                    trigger.kill();
-                }
-            });
-
-            // Title animation for mobile
-            gsap.fromTo(titleRef.current,
-                { opacity: 0, y: 50 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: titleRef.current,
-                        start: "top 80%",
-                        toggleActions: "play none none none"
-                    }
-                }
-            );
-
-            // Animate each project panel individually
-            gsap.utils.toArray(".project-panel").forEach((panel, index) => {
-                gsap.fromTo(panel,
-                    { opacity: 0, y: 50 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 1,
-                        delay: index * 0.1,
-                        scrollTrigger: {
-                            trigger: panel,
-                            start: "top 80%",
-                            toggleActions: "play none none none"
-                        }
-                    }
-                );
-            });
-        });
-
-        // Cleanup function
-        return () => {
-            ScrollTrigger.getAll().forEach(trigger => {
-                if (trigger.trigger === sectionRef.current ||
-                    trigger.trigger === containerRef.current ||
-                    trigger.trigger === titleRef.current) {
-                    trigger.kill();
-                }
-            });
-        };
-
-    }, { scope: sectionRef, dependencies: [projects.length] });
+    }, { scope: sectionRef });
 
     return (
-        <section ref={sectionRef} className="relative">
+        <section ref={sectionRef} className="relative bg-black-100">
+            {/* Subtle background accent */}
+            <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/[0.02]"></div>
+                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/[0.02]"></div>
+            </div>
+
             {/* Title Section */}
-            <div ref={titleRef} className="c-space py-20">
-                <h2 className="projects-title mb-4">My Projects</h2>
-                <p className="text-neutral-400 max-w-2xl">
-                    Here are some of my recent projects that showcase my skills in web and mobile development.
-                </p>
+            <div ref={titleRef} className="c-space py-24 relative z-10">
+                <div className="max-w-4xl">
+                    <div className="flex items-center gap-6 mb-8">
+                        <div className="h-[1px] w-24 bg-white/20"></div>
+                        <span className="text-white/40 uppercase tracking-[0.2em] text-xs font-light">Featured Work</span>
+                    </div>
+                    <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white">
+                        Projects
+                    </h2>
+                    <p className="text-white/60 text-lg max-w-2xl leading-relaxed">
+                        Crafting digital experiences through innovative web and mobile solutions
+                    </p>
+                </div>
             </div>
 
             {/* Projects Container */}
-            <div ref={containerRef} className="relative bg-black-100 md:h-screen overflow-hidden">
-                <div
-                    ref={projectsWrapperRef}
-                    className="flex md:h-full md:w-max"
-                    style={{ width: `${projects.length * 100}vw` }}
-                >
+            <div className="relative pb-32">
+                <div className="c-space">
                     {projects.map((project, index) => (
                         <div
                             key={project.id}
-                            className="project-panel w-screen md:h-full flex-shrink-0 flex items-center justify-center px-5 md:px-20 py-10 md:py-0"
+                            className="project-item mb-24 last:mb-0"
                         >
-                            <div className="w-full max-w-7xl mx-auto">
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-                                    {/* Content */}
-                                    <div className="order-2 lg:order-1">
-                                        <p className="text-neutral-400 mb-2">{project.date}</p>
-                                        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
-                                            {project.title}
-                                        </h3>
-                                        <p className="text-neutral-300 text-lg mb-8 leading-relaxed">
-                                            {project.description}
-                                        </p>
-                                        <a
-                                            href={project.link}
-                                            className="inline-flex items-center gap-2 text-white hover:text-neutral-300 transition-colors group"
-                                        >
-                                            <span className="text-lg font-medium">View Project</span>
-                                            <svg
-                                                width="20"
-                                                height="20"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                                className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
-                                            >
-                                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                                            </svg>
-                                        </a>
-                                    </div>
+                            <div className="group relative">
+                                {/* Project Number - Large Background */}
+                                <div className="absolute -left-12 top-0 text-[200px] font-bold text-white/[0.02] select-none pointer-events-none">
+                                    0{index + 1}
+                                </div>
 
-                                    {/* Image */}
-                                    <div className="order-1 lg:order-2">
-                                        <div className="relative aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-neutral-800 to-neutral-900">
+                                <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                                    {/* Image Section - Square */}
+                                    <div className={`lg:col-span-5 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>
+                                        <div className="relative aspect-square bg-black-200 overflow-hidden group-hover:shadow-2xl transition-shadow duration-500">
+                                            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 z-10"></div>
                                             <img
                                                 src={project.image}
                                                 alt={project.alt}
-                                                className="w-full h-full object-cover"
+                                                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                                                 loading="lazy"
                                             />
+                                            {/* Premium overlay effect */}
+                                            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 mix-blend-overlay transition-opacity duration-500"></div>
+                                        </div>
+                                    </div>
+
+                                    {/* Content Section */}
+                                    <div className={`lg:col-span-7 flex flex-col justify-center ${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'}`}>
+                                        <div className="space-y-6">
+                                            {/* Date and Number */}
+                                            <div className="flex items-center gap-8">
+                                                <span className="text-white/30 text-sm uppercase tracking-widest">{project.date}</span>
+                                                <div className="flex-1 h-[1px] bg-white/10"></div>
+                                                <span className="text-white/20 text-2xl font-light">0{index + 1}</span>
+                                            </div>
+
+                                            {/* Title */}
+                                            <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                                                {project.title}
+                                            </h3>
+
+                                            {/* Description */}
+                                            <p className="text-white/50 text-lg leading-relaxed max-w-2xl">
+                                                {project.description}
+                                            </p>
+
+                                            {/* Tech Stack */}
+                                            <div className="flex flex-wrap gap-3 pt-2">
+                                                {project.tech.map((tech, i) => (
+                                                    <span
+                                                        key={i}
+                                                        className="px-4 py-2 text-xs text-white/60 bg-white/[0.05] border border-white/10 uppercase tracking-wider"
+                                                    >
+                                                        {tech}
+                                                    </span>
+                                                ))}
+                                            </div>
+
+                                            {/* CTA */}
+                                            <div className="pt-4">
+                                                <a
+                                                    href={project.link}
+                                                    className="group/link inline-flex items-center gap-4"
+                                                >
+                                                    <span className="text-white text-lg font-light tracking-wide">View Project</span>
+                                                    <div className="relative w-12 h-12 border border-white/20 flex items-center justify-center overflow-hidden group-hover/link:border-white/40 transition-colors">
+                                                        <svg
+                                                            width="20"
+                                                            height="20"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="1"
+                                                            className="text-white/60 group-hover/link:text-white transition-all duration-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1"
+                                                        >
+                                                            <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                                                        </svg>
+                                                        {/* Diagonal line effect */}
+                                                        <div className="absolute inset-0 bg-white/10 -translate-x-full -translate-y-full group-hover/link:translate-x-0 group-hover/link:translate-y-0 transition-transform duration-500"></div>
+                                                    </div>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* Bottom border */}
+                                <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/10"></div>
                             </div>
                         </div>
                     ))}
                 </div>
-
-                {/* Progress Indicators - Only show on desktop */}
-                <div className="hidden md:flex absolute bottom-10 left-1/2 -translate-x-1/2 gap-3 z-10">
-                    {projects.map((_, index) => (
-                        <div
-                            key={index}
-                            className={`progress-dot w-2 h-2 rounded-full bg-white/30 transition-all duration-300 ${
-                                index === 0 ? 'active' : ''
-                            }`}
-                        />
-                    ))}
-                </div>
             </div>
 
-            {/* View All Projects Button */}
-            <div className="c-space py-10 text-center">
-                <button className="px-8 py-3 bg-white text-black rounded-lg hover:bg-neutral-200 transition-colors">
-                    View All Projects →
+            {/* View All Projects - Premium Button */}
+            <div className="c-space pb-24 flex justify-center">
+                <button className="group relative px-12 py-5 bg-transparent border border-white/20 text-white overflow-hidden transition-all duration-500 hover:border-white/40">
+                    <span className="relative z-10 flex items-center gap-3 text-base uppercase tracking-widest font-light">
+                        All Projects
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="transition-transform duration-300 group-hover:translate-x-2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </span>
+                    <div className="absolute inset-0 bg-white -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                    <span className="absolute inset-0 flex items-center justify-center gap-3 text-base uppercase tracking-widest font-light text-black -translate-x-full group-hover:translate-x-0 transition-transform duration-500 delay-75">
+                        All Projects
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </span>
                 </button>
             </div>
-
-            <style jsx>{`
-                .progress-dot.active {
-                    width: 2rem !important;
-                    background-color: white !important;
-                }
-            `}</style>
         </section>
     );
 };

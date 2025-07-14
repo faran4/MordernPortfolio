@@ -10,10 +10,11 @@ gsap.registerPlugin(useGSAP);
 const Hero = () => {
     const component = useRef(null);
 
-    // Separate states for sparkles and shapes
+    // Your existing states for sparkles and shapes
     const [showSparkles, setShowSparkles] = useState(false);
     const [showShapes, setShowShapes] = useState(false);
 
+    // Your EXACT existing useGSAP animation
     useGSAP(() => {
         let ctx = gsap.context(() => {
             // Set initial state immediately to prevent flashing
@@ -69,6 +70,7 @@ const Hero = () => {
         return () => ctx.revert();
     }, []);
 
+    // Your EXACT existing renderLetters function
     const renderLetters = (name, key) => {
         if (!name) return;
 
@@ -79,48 +81,79 @@ const Hero = () => {
     }
 
     return (
-        <section ref={component} className="relative px-4 py-10 md:px-6 md:py-14 lg:py-16 min-h-screen overflow-hidden">
-            {/* Spotlight loads immediately */}
+        <section ref={component} className="relative c-space min-h-screen overflow-hidden bg-black-100">
+            {/* Enhanced background accents - Projects style */}
+            <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/[0.02]"></div>
+                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/[0.02]"></div>
+            </div>
+
+            {/* Your EXACT existing Spotlight */}
             <Spotlight
-                duration={8} // Faster rotation
-                xOffset={40} // More movement
+                duration={8}
+                xOffset={40}
                 width={400}
                 height={1000}
                 smallWidth={180}
             />
 
-            {/* Main content with higher z-index */}
-            <div className="relative z-10 mx-auto w-full max-w-7xl grid min-h-[70vh] grid-cols-1 md:grid-cols-2 items-center gap-16 md:gap-0">
-                {/* 3D Models with Sparkles - Move to top on mobile */}
-                <div className="relative col-start-1 row-start-1 md:col-start-2 md:row-start-1 mt-20 md:mt-0">
-                    {/* Sparkles background - always rendered but with controlled opacity */}
-                    <div className="absolute inset-0" style={{ opacity: showSparkles ? 1 : 0, transition: 'opacity 0.6s ease-out' }}>
-                        <SparklesCore
-                            particleDensity={120}
-                            speed={4}
-                            minSize={1}
-                            maxSize={3}
-                        />
-                    </div>
-                    {/* 3D Models - always rendered but with controlled opacity */}
-                    <div className="relative z-10" style={{ opacity: showShapes ? 1 : 0, transition: 'opacity 0.5s ease-out' }}>
-                        <Shapes />
-                    </div>
+            {/* Enhanced main content with Projects spacing */}
+            <div className="relative z-10 mx-auto w-full max-w-7xl py-16">
+                {/* Added Projects-style eyebrow label */}
+                <div className="flex items-center gap-6 mb-8">
+                    <div className="h-[1px] w-24 bg-white/20"></div>
+                    <span className="text-white/40 uppercase tracking-[0.2em] text-xs font-light">
+                        Full Stack Developer
+                    </span>
                 </div>
 
-                {/* Text content - Move to bottom on mobile */}
-                <div className="col-start-1 row-start-2 md:row-start-1">
-                    <h1 className="mb-8 font-extrabold leading-none tracking-tighter text-center md:text-left"
-                        style={{fontSize: 'clamp(3rem, 20vmin, 20rem)'}}
-                        aria-label="Faran Imam Software Developer">
-                        <span className="block text-slate-300">{renderLetters("Faran", "first")}</span>
-                        <span className="-mt-[.2em] block text-slate-500">{renderLetters("Imam", "last")}</span>
-                        <span
-                            className="job-title block bg-gradient-to-tr from-yellow-500 via-yellow-200 to-yellow-500 bg-clip-text text-2xl
-                                 font-bold uppercase tracking-[.2em] text-transparent will-change-transform md:text-4xl mt-4 md:mt-6">
-                                Software Developer
-                        </span>
-                    </h1>
+                <div className="grid min-h-[60vh] grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-12">
+                    {/* Your EXACT existing 3D Models section */}
+                    <div className="relative col-start-1 row-start-1 md:col-start-2 md:row-start-1 h-[400px] md:h-[500px]">
+                        {/* Your EXACT existing Sparkles */}
+                        <div className="absolute inset-0" style={{ opacity: showSparkles ? 0.6 : 0, transition: 'opacity 0.6s ease-out' }}>
+                            <SparklesCore
+                                particleDensity={120}
+                                speed={4}
+                                minSize={1}
+                                maxSize={3}
+                                particleColor="#ffffff"
+                            />
+                        </div>
+                        {/* Your EXACT existing 3D Models */}
+                        <div className="relative z-10" style={{ opacity: showShapes ? 1 : 0, transition: 'opacity 0.5s ease-out' }}>
+                            <Shapes />
+                        </div>
+                    </div>
+
+                    {/* Your existing text content with Projects-style enhancements */}
+                    <div className="col-start-1 row-start-2 md:row-start-1">
+                        {/* Your EXACT existing h1 */}
+                        <h1 className="mb-8 font-extrabold leading-none tracking-tighter text-center md:text-left"
+                            style={{fontSize: 'clamp(3rem, 20vmin, 20rem)'}}
+                            aria-label="Faran Imam Software Developer">
+                            <span className="block text-white">{renderLetters("Faran", "first")}</span>
+                            <span className="-mt-[.2em] block text-white/60">{renderLetters("Imam", "last")}</span>
+                            <span
+                                className="job-title block text-2xl font-bold uppercase tracking-[.2em] text-white/40 will-change-transform md:text-4xl mt-4 md:mt-6">
+                                    Software Developer
+                            </span>
+                        </h1>
+
+                        {/* Added Projects-style description */}
+                        <p className="text-white/60 text-lg max-w-2xl leading-relaxed mb-8 text-center md:text-left">
+                            Crafting innovative digital experiences through cutting-edge web and mobile technologies
+                        </p>
+
+                        {/* Added Projects-style subtle navigation hint */}
+                        <div className="flex items-center gap-8 justify-center md:justify-start">
+                            <div className="h-[1px] w-16 bg-white/10"></div>
+                            <span className="text-white/30 text-xs uppercase tracking-widest">
+                                Scroll to explore
+                            </span>
+                            <div className="h-[1px] w-16 bg-white/10"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

@@ -95,61 +95,102 @@ const ExperienceSection = () => {
     },[]);
 
     return (
-        <section id="experience" className="w-full md:mt-40 mt-20 section-padding xl:px-0">
-            <div className="w-full h-full md:px-20 px-5">
-                <TitleHeader title="Professional Work Experience" sub="💼 My Career Overview" />
+        <section id="experience" className="relative bg-black-100 min-h-screen flex items-center overflow-hidden">
+            {/* Premium background accents */}
+            <div className="absolute inset-0">
+                <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/[0.02] rounded-full blur-3xl"></div>
+                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/[0.02] rounded-full blur-3xl"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/[0.02] rounded-full blur-3xl"></div>
             </div>
 
-            <div className="mt-32 relative">
-                {/* Central timeline line */}
-                <div className="timeline-wrapper">
-                    <div className="gradient-line" />
+            <div className="w-full relative z-10 py-16">
+                {/* Premium Header */}
+                <div className="c-space mb-16 px-5 md:px-10 lg:px-20">
+                    <div className="flex items-center gap-6 mb-8">
+                        <div className="h-[1px] w-24 bg-white/20"></div>
+                        <span className="text-white/40 uppercase tracking-[0.2em] text-xs font-light">💼 Career Journey</span>
+                    </div>
+                    <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight">
+                        Experience
+                    </h2>
+                    <p className="text-white/60 text-lg max-w-2xl leading-relaxed">
+                        Professional milestones and achievements that shaped my development journey
+                    </p>
                 </div>
 
-                <div className="relative z-50 xl:space-y-32 space-y-16">
-                    {expCards.map((card, index) => (
-                        <div key={card.title} className="exp-card-wrapper">
-                            {/* Left side - Glow Card */}
-                            <div className="xl:w-5/12 w-full">
-                                <GlowCard card={card} index={index}>
-                                    <div className="flex items-center gap-4">
-                                        <img src={card.imgPath} alt={card.title} className="size-20 rounded-full flex-shrink-0"/>
-                                        <div>
-                                            <h3 className="text-white font-medium text-lg">{card.imgText}</h3>
+                <div className="mt-32 relative px-5 md:px-10 lg:px-20">
+                    {/* Central timeline line */}
+                    <div className="timeline-wrapper">
+                        <div className="gradient-line" />
+                    </div>
+
+                    <div className="relative z-50 xl:space-y-32 space-y-16">
+                        {expCards.map((card, index) => (
+                            <div key={card.title} className="exp-card-wrapper">
+                                {/* Left side - Premium Glow Card */}
+                                <div className="xl:w-5/12 w-full">
+                                    <GlowCard card={card} index={index}>
+                                        <div className="flex items-center gap-4">
+                                            <div className="relative">
+                                                <img
+                                                    src={card.imgPath}
+                                                    alt={card.title}
+                                                    className="size-20 object-cover flex-shrink-0 relative z-10 border-2 border-white/10 rounded-full"
+                                                />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-white font-semibold text-lg leading-tight">{card.imgText}</h3>
+                                                <div className="h-[1px] w-12 bg-white/20 mt-2"></div>
+                                            </div>
+                                        </div>
+                                    </GlowCard>
+                                </div>
+
+                                {/* Center - Timeline Logo */}
+                                <div className="timeline-logo-container">
+                                    <div className="timeline-logo">
+                                        <img src={card.logoPath} alt="logo" className="w-full h-full object-cover"/>
+                                    </div>
+                                </div>
+
+                                {/* Right side - Experience Text (No Box) */}
+                                <div className="xl:w-5/12 w-full">
+                                    <div className="expText">
+                                        {/* Premium Date Badge */}
+                                        <div className="flex items-center gap-3 mb-6">
+                                            <span className="w-2 h-2 bg-white/60 rounded-full"></span>
+                                            <span className="text-white/60 text-sm uppercase tracking-wider font-medium">
+                                                {card.date}
+                                            </span>
+                                            <div className="flex-1 h-[1px] bg-white/20"></div>
+                                        </div>
+
+                                        {/* Title */}
+                                        <h1 className="font-bold text-3xl md:text-4xl text-white mb-8 leading-tight">
+                                            {card.title}
+                                        </h1>
+
+                                        {/* Responsibilities Label */}
+                                        <p className="text-white/40 text-xs uppercase tracking-[0.2em] font-medium mb-6">
+                                            Key Responsibilities
+                                        </p>
+
+                                        {/* Responsibilities List */}
+                                        <div className="space-y-4">
+                                            {card.responsibilities.map((responsibility, idx) => (
+                                                <div key={idx} className="flex items-start gap-4">
+                                                    <div className="w-1.5 h-1.5 bg-white/50 rounded-full mt-2 flex-shrink-0"></div>
+                                                    <p className="text-white/70 text-base leading-relaxed">
+                                                        {responsibility}
+                                                    </p>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
-                                </GlowCard>
-                            </div>
-
-                            {/* Center - Timeline Logo */}
-                            <div className="timeline-logo-container">
-                                <div className="timeline-logo">
-                                    <img src={card.logoPath} alt="logo" className="w-full h-full object-cover rounded-full"/>
                                 </div>
                             </div>
-
-                            {/* Right side - Experience Text */}
-                            <div className="xl:w-5/12 w-full">
-                                <div className="expText">
-                                    <h1 className="font-semibold text-3xl text-white">{card.title}</h1>
-                                    <p className="my-5 text-white-50 flex items-center gap-2">
-                                        <span className="w-4 h-4 bg-black-50 rounded-sm"></span>
-                                        {card.date}
-                                    </p>
-                                    <p className="text-[#839cb5] italic mb-4">
-                                        Responsibilities
-                                    </p>
-                                    <ul className="list-disc ml-5 space-y-3 text-white-50">
-                                        {card.responsibilities.map((responsibility, idx) => (
-                                            <li key={idx} className="text-base leading-relaxed">
-                                                {responsibility}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

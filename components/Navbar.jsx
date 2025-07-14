@@ -1,67 +1,62 @@
-import React, {useEffect, useState} from 'react'
-import {navLinks} from "../constants/index.js";
+import React, { useEffect, useState } from 'react';
+
+const navLinks = [
+    { link: "#about", name: "About" },
+    { link: "#projects", name: "Projects" },
+    { link: "#experience", name: "Experience" },
+    { link: "#contact", name: "Contact" }
+];
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
-    const [hideNavbar, setHideNavbar] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
-            const isScrolled = window.scrollY > 10;
-            setScrolled(true);
-
-            // Check if projects section is in view
-            const projectsSection = document.querySelector('#work');
-            if (projectsSection) {
-                const rect = projectsSection.getBoundingClientRect();
-                const windowHeight = window.innerHeight;
-
-                // Hide navbar when projects section reaches the top
-                // Show navbar when projects section is completely out of view
-                if (rect.top <= 0 && rect.bottom > windowHeight * 0.1) {
-                    setHideNavbar(true);
-                } else {
-                    setHideNavbar(false);
-                }
-            }
-        }
+            setScrolled(window.scrollY > 20);
+        };
 
         window.addEventListener('scroll', handleScroll);
-        // Run once on mount to check initial state
         handleScroll();
-
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     return (
-        <header className={`navbar ${scrolled ? 'scrolled' : 'not-scrolled'} ${hideNavbar ? 'navbar-hidden' : 'navbar-visible'}`}>
-            <div className="inner">
-                <a className="logo" href="#hero">
+        <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+            scrolled ? 'bg-black-100/95 backdrop-blur-md border-b border-white/5' : 'bg-transparent'
+        }`}>
+            <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+                {/* Logo */}
+                <a href="#hero" className="text-2xl font-bold text-white hover:scale-105 transition-transform tracking-tight">
                     Faran
                 </a>
 
-                <nav className="desktop">
-                    <ul>
-                        {navLinks.map(({link, name}) => (
-                            <li key={name} className="group">
-                                <a href={link}>
-                                    <span>{name}</span>
-                                    <span className="underline"/>
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
+                {/* Desktop Nav */}
+                <nav className="hidden md:flex space-x-8">
+                    {navLinks.map(({ link, name }) => (
+                        <a
+                            key={name}
+                            href={link}
+                            className="group text-white/60 hover:text-white transition-colors relative"
+                        >
+                            <span className="text-sm uppercase tracking-wide font-light">{name}</span>
+                            <div className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white/40 transition-all group-hover:w-full"></div>
+                        </a>
+                    ))}
                 </nav>
 
-                <a href="#contact" className="contact-btn group">
-                    <div className="inner">
-                        <span>Contact me</span>
-                    </div>
+                {/* Contact Button */}
+                <a
+                    href="#contact"
+                    className="group relative px-4 py-2 border border-white/20 text-white overflow-hidden transition-all duration-300 hover:border-white/40"
+                >
+                        <span className="relative z-10 text-sm uppercase tracking-widest font-light group-hover:text-black transition-colors">
+                            Contact
+                        </span>
+                    <div className="absolute inset-0 bg-white -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
                 </a>
-
             </div>
-
         </header>
-    )
-}
-export default Navbar
+    );
+};
+
+export default Navbar;

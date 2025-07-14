@@ -3,35 +3,33 @@ import React from 'react'
 const ToolBoxItems = ({items, direction = 'left'}) => {
     return (
         <div className="flex overflow-hidden [mask-image:linear-gradient(to_right, transparent, black 10%, black 90%, transparent)]">
-            <div className={`flex flex-none py-4 ${direction === 'left' ? 'animate-scroll-left' : 'animate-scroll-right'}`}>
+            <div className={`flex flex-none py-3 ${direction === 'left' ? 'animate-scroll-left' : 'animate-scroll-right'}`}>
                 {/* First set of items */}
                 {items.map(item => (
-                    <div key={item.title}
-                         className="inline-flex items-center gap-4 mx-4 py-2 px-3 outline outline-2 outline-white/10 rounded-lg whitespace-nowrap">
+                    <div key={item.title} className="toolbox-item">
                         <div
-                            className="size-10 flex-shrink-0"
+                            className="toolbox-icon"
                             style={{
-                                background: 'linear-gradient(45deg, #374151, #ffffff)',
+                                background: 'linear-gradient(45deg, #374151, #1f2937)',
                                 WebkitMask: `url(${item.icon}) center/contain no-repeat`,
                                 mask: `url(${item.icon}) center/contain no-repeat`
                             }}
                         ></div>
-                        <span className="font-semibold">{item.title}</span>
+                        <span className="toolbox-text">{item.title}</span>
                     </div>
                 ))}
                 {/* Duplicate items for seamless loop */}
                 {items.map(item => (
-                    <div key={`${item.title}-duplicate`}
-                         className="inline-flex items-center gap-4 mx-4 py-2 px-3 outline outline-2 outline-white/10 rounded-lg whitespace-nowrap">
+                    <div key={`${item.title}-duplicate`} className="toolbox-item">
                         <div
-                            className="size-10 flex-shrink-0"
+                            className="toolbox-icon"
                             style={{
-                                background: 'linear-gradient(45deg, #374151, #ffffff)',
+                                background: 'linear-gradient(45deg, #374151, #1f2937)',
                                 WebkitMask: `url(${item.icon}) center/contain no-repeat`,
                                 mask: `url(${item.icon}) center/contain no-repeat`
                             }}
                         ></div>
-                        <span className="font-semibold">{item.title}</span>
+                        <span className="toolbox-text">{item.title}</span>
                     </div>
                 ))}
             </div>
@@ -45,7 +43,7 @@ const ToolBoxItems = ({items, direction = 'left'}) => {
                         transform: translateX(-50%);
                     }
                 }
-                
+
                 @keyframes scroll-right {
                     0% {
                         transform: translateX(-50%);
@@ -54,11 +52,11 @@ const ToolBoxItems = ({items, direction = 'left'}) => {
                         transform: translateX(0);
                     }
                 }
-                
+
                 .animate-scroll-left {
                     animation: scroll-left 20s linear infinite;
                 }
-                
+
                 .animate-scroll-right {
                     animation: scroll-right 20s linear infinite;
                 }
