@@ -119,8 +119,8 @@ const ExperienceSection = () => {
                 </div>
 
                 <div className="mt-32 relative px-5 md:px-10 lg:px-20">
-                    {/* Central timeline line */}
-                    <div className="timeline-wrapper">
+                    {/* Central timeline line - positioned relative to this container */}
+                    <div className="timeline-wrapper xl:absolute xl:left-1/2 xl:-translate-x-1/2">
                         <div className="gradient-line" />
                     </div>
 
@@ -147,7 +147,7 @@ const ExperienceSection = () => {
                                 </div>
 
                                 {/* Center - Timeline Logo */}
-                                <div className="timeline-logo-container">
+                                <div className="timeline-logo-container xl:absolute xl:left-1/2 xl:-translate-x-1/2">
                                     <div className="timeline-logo">
                                         <img src={card.logoPath} alt="logo" className="w-full h-full object-cover"/>
                                     </div>

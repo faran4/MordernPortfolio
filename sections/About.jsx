@@ -198,7 +198,7 @@ const About = () => {
                     </div>
 
                     {/* Grid 5 - Tech Toolbox */}
-                    <div className="premium-grid-base grid-light-color grid-5" style={{ willChange: 'transform, opacity' }}>
+                    <div className="premium-grid-base grid-light-color grid-5 p-3" style={{ willChange: 'transform, opacity' }}>
                         <div className="premium-grid-glow"></div>
                         <div className="toolbox-content-wrapper">
                             <p className="text-heading">My Toolbox</p>

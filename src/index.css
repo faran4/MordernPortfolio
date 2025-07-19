@@ -535,7 +535,7 @@ section {
 
     .grid-5 .toolbox-content-wrapper {
         height: 45%;
-        padding: 16px;
+        padding: 0;
     }
 
     .premium-email-button {
@@ -888,12 +888,13 @@ section {
 
 /* Main timeline wrapper */
 .timeline-wrapper {
-    @apply absolute left-1/2 z-10;
-    top: 0.5rem;
-    height: calc(100% - 0.5rem);
+    @apply absolute z-10;
+    top: 0;
+    height: 100%;
+    /* Default desktop positioning */
+    left: 50%;
     transform: translateX(-50%);
 }
-
 /* The main vertical gradient line */
 .gradient-line {
     @apply w-0.5 h-full relative;
@@ -913,107 +914,13 @@ section {
 /* Timeline logo container */
 .timeline-logo-container {
     @apply absolute left-1/2 top-0 transform -translate-x-1/2 z-20;
-    margin-top: 0.5rem;
-}
-
-/* Individual timeline logo styling */
-.timeline-logo {
-    @apply w-16 h-16 rounded-full border-4 overflow-hidden;
-    @apply flex items-center justify-center;
-    border-color: #333333;
-    background-color: #2a2a2a;
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+    margin-top: 0;
 }
 
 /* Experience card wrapper */
 .exp-card-wrapper {
     @apply relative flex flex-col xl:flex-row xl:items-center xl:justify-between;
     @apply xl:gap-8 gap-8;
-}
-
-/* Mobile adjustments */
-@media (max-width: 1279px) {
-    .exp-card-wrapper {
-        @apply flex-col space-y-6;
-    }
-
-    .timeline-wrapper {
-        @apply hidden;
-    }
-
-    .expText {
-        @apply mt-0;
-    }
-}
-
-/* Enhanced Timeline Line */
-
-
-/* Ultra Premium Circular Timeline Logo */
-.timeline-logo {
-    @apply w-20 h-20 rounded-full flex items-center justify-center overflow-hidden;
-    border: 4px solid transparent;
-    background:
-            linear-gradient(135deg, #1a1a1a, #2a2a2a) padding-box,
-            linear-gradient(45deg,
-            rgba(255,255,255,0.3) 0%,
-            rgba(255,255,255,0.1) 25%,
-            rgba(255,255,255,0.05) 50%,
-            rgba(255,255,255,0.1) 75%,
-            rgba(255,255,255,0.3) 100%
-            ) border-box;
-    box-shadow:
-            0 12px 40px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-            0 0 30px rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-}
-
-.timeline-logo::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 50%;
-    padding: 2px;
-    background: linear-gradient(
-            45deg,
-            rgba(255,255,255,0.4),
-            transparent 30%,
-            transparent 70%,
-            rgba(255,255,255,0.4)
-    );
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.timeline-logo:hover {
-    @apply scale-110;
-    border-color: rgba(255, 255, 255, 0.4);
-    box-shadow:
-            0 20px 60px rgba(0, 0, 0, 0.6),
-            inset 0 2px 0 rgba(255, 255, 255, 0.3),
-            inset 0 -2px 0 rgba(0, 0, 0, 0.4),
-            0 0 50px rgba(255, 255, 255, 0.2);
-    transform: scale(1.1) translateZ(0);
-}
-
-.timeline-logo:hover::before {
-    opacity: 1;
-}
-
-.timeline-logo img {
-    @apply w-12 h-12 object-cover rounded-full;
-    filter: brightness(1.1) contrast(1.1);
-    transition: filter 0.3s ease;
-}
-
-.timeline-logo:hover img {
-    filter: brightness(1.2) contrast(1.2) drop-shadow(0 0 10px rgba(255,255,255,0.3));
 }
 
 /* Enhanced Timeline Line with Light Spread */
@@ -1039,35 +946,41 @@ section {
     border-radius: 2px;
 }
 
-.timeline-logo-container::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(
-            circle,
-            rgba(59, 130, 246, 0.3) 0%,
-            rgba(59, 130, 246, 0.15) 30%,
-            rgba(217, 236, 255, 0.1) 50%,
-            rgba(217, 236, 255, 0.05) 70%,
-            transparent 100%
-    );
-    border-radius: 50%;
-    z-index: -1;
-    transition: all 0.5s ease;
-    opacity: 0.8;
+.timeline-logo {
+    @apply w-20 h-20 rounded-full flex items-center justify-center overflow-hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
 
-.timeline-logo-container:hover::before {
-    width: 140px;
-    height: 140px;
-    opacity: 1;
+.timeline-logo:hover {
+    @apply scale-110;
+    transform: scale(1.1) translateZ(0);
 }
 
-/* Remove premium-exp-card and premium-exp-glow styles since right side is just text */
+.timeline-logo img {
+    @apply w-[90%] h-[90%] object-cover rounded-full;
+    transition: all 0.3s ease;
+
+    /* Remove border completely */
+    border: none;
+
+    /* Star-like white glow effect */
+    filter:
+            drop-shadow(0 0 10px rgba(255, 255, 255, 0.9))
+            drop-shadow(0 0 20px rgba(255, 255, 255, 0.7))
+            drop-shadow(0 0 40px rgba(255, 255, 255, 0.5))
+            drop-shadow(0 0 80px rgba(255, 255, 255, 0.3));
+}
+
+.timeline-logo:hover img {
+    filter:
+            drop-shadow(0 0 15px rgba(255, 255, 255, 1))
+            drop-shadow(0 0 30px rgba(255, 255, 255, 0.8))
+            drop-shadow(0 0 60px rgba(255, 255, 255, 0.6))
+            drop-shadow(0 0 100px rgba(255, 255, 255, 0.4));
+}
+
+
 /* ==============================================
    CLEAN EXPERIENCE SECTION STYLES
    ============================================== */
@@ -1144,58 +1057,164 @@ section {
     opacity: 1;
 }
 
-/* Experience Section Responsive Adjustments with Proper Padding */
 @media (max-width: 1279px) {
     .premium-glow-card {
         min-height: 250px;
         margin: 0 1rem;
     }
 
+    .timeline-wrapper {
+        @apply fixed;
+        left: 1.5rem;
+        transform: none;
+        height: 100%;
+        top: 2rem;
+    }
+
+    .timeline-logo-container {
+        @apply absolute;
+        left: 1.5rem;
+        top: 2rem;
+        transform: translateX(-50%);
+    }
+
+    .timeline-logo {
+        @apply w-16 h-16;
+    }
+
+    .timeline-logo img {
+        @apply w-[85%] h-[85%];
+    }
+
     .exp-card-wrapper {
-        @apply flex-col space-y-8;
-        padding: 0 1rem;
+        @apply flex-col space-y-8 relative;
+        padding: 0 1rem 0 3rem;
     }
 
     .expText {
         padding: 0 1rem;
+    }
+
+    /* Adjust gradient line for mobile */
+    .gradient-line {
+        @apply w-0.5;
+        background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(59, 130, 246, 0.4) 10%,
+                rgba(59, 130, 246, 0.8) 30%,
+                #3b82f6 50%,
+                rgba(217, 236, 255, 0.8) 70%,
+                rgba(217, 236, 255, 0.4) 90%,
+                transparent 100%
+        );
+        box-shadow:
+                0 0 20px rgba(59, 130, 246, 0.3),
+                0 0 40px rgba(59, 130, 246, 0.15);
     }
 }
 
 @media (max-width: 768px) {
     .premium-glow-card {
-        min-height: 220px;
-        margin: 0 1.5rem;
+        min-height: 250px;
+        margin: 0 1rem;
     }
 
-    .premium-glow-card .relative.z-10 {
-        @apply p-6;
+    .timeline-logo {
+        @apply w-14 h-14;
+    }
+
+    .timeline-logo img {
+        @apply w-[85%] h-[85%];
+    }
+
+    .timeline-logo-container {
+        left: 1.25rem;
+        transform: translateX(-50%);
     }
 
     .exp-card-wrapper {
-        padding: 0 1.5rem;
+        @apply flex-col space-y-8 relative;
+        padding: 0 1rem 0 3rem;
     }
 
     .expText {
-        padding: 0 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .timeline-wrapper {
+        left: 1.25rem;
+        top: 2rem;
+    }
+
+    /* Adjust gradient line for mobile */
+    .gradient-line {
+        @apply w-0.5;
+        background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(59, 130, 246, 0.4) 10%,
+                rgba(59, 130, 246, 0.8) 30%,
+                #3b82f6 50%,
+                rgba(217, 236, 255, 0.8) 70%,
+                rgba(217, 236, 255, 0.4) 90%,
+                transparent 100%
+        );
+        box-shadow:
+                0 0 20px rgba(59, 130, 246, 0.3),
+                0 0 40px rgba(59, 130, 246, 0.15);
     }
 }
 
 @media (max-width: 480px) {
     .premium-glow-card {
-        min-height: 200px;
+        min-height: 250px;
         margin: 0 1rem;
     }
 
-    .premium-glow-card .relative.z-10 {
-        @apply p-5;
+    .timeline-logo {
+        @apply w-12 h-12;
+    }
+
+    .timeline-logo img {
+        @apply w-[85%] h-[85%];
+    }
+
+    .timeline-logo-container {
+        left: 1rem;
+        transform: translateX(-50%);
     }
 
     .exp-card-wrapper {
-        padding: 0 1rem;
+        @apply flex-col space-y-8 relative;
+        padding: 0 1rem 0 3rem;
     }
 
     .expText {
         padding: 0 1rem;
+    }
+
+    .timeline-wrapper {
+        left: 1rem;
+        top: 2rem;
+    }
+
+    /* Adjust gradient line for mobile */
+    .gradient-line {
+        @apply w-0.5;
+        background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(59, 130, 246, 0.4) 10%,
+                rgba(59, 130, 246, 0.8) 30%,
+                #3b82f6 50%,
+                rgba(217, 236, 255, 0.8) 70%,
+                rgba(217, 236, 255, 0.4) 90%,
+                transparent 100%
+        );
+        box-shadow:
+                0 0 20px rgba(59, 130, 246, 0.3),
+                0 0 40px rgba(59, 130, 246, 0.15);
     }
 }
 
@@ -1213,85 +1232,6 @@ section {
 .premium-glow-card:focus-visible {
     outline: 2px solid #3b82f6;
     outline-offset: 4px;
-}
-
-/* Experience Section Responsive Adjustments with Proper Padding */
-@media (max-width: 1279px) {
-    .premium-glow-card {
-        min-height: 250px;
-        margin: 0 1rem;
-    }
-
-    .timeline-wrapper {
-        @apply hidden;
-    }
-
-    .timeline-logo-container {
-        @apply hidden;
-    }
-
-    .exp-card-wrapper {
-        @apply flex-col space-y-8;
-        padding: 0 1rem;
-    }
-
-    .expText {
-        padding: 0 1rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .premium-glow-card {
-        min-height: 220px;
-        margin: 0 1.5rem;
-    }
-
-    .premium-glow-card .relative.z-10 {
-        @apply p-6;
-    }
-
-    .timeline-logo {
-        @apply w-16 h-16;
-    }
-
-    .timeline-logo img {
-        @apply w-10 h-10;
-    }
-
-    .exp-card-wrapper {
-        padding: 0 1.5rem;
-    }
-
-    .expText {
-        padding: 0 1.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .premium-glow-card {
-        min-height: 200px;
-        margin: 0 1rem;
-    }
-
-    .premium-glow-card .relative.z-10 {
-        @apply p-5;
-    }
-
-    .timeline-logo {
-        @apply w-14 h-14;
-    }
-
-    .timeline-logo img {
-        @apply w-8 h-8;
-    }
-
-    .exp-card-wrapper {
-        padding: 0 1rem;
-    }
-
-    .expText {
-        padding: 0 1rem;
-    }
 }
 
 /* Accessibility & Performance */

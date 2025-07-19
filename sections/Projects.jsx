@@ -108,7 +108,7 @@ const Projects = () => {
             </div>
 
             {/* Projects Container */}
-            <div className="relative pb-32">
+            <div className="relative pb-28">
                 <div className="c-space">
                     {projects.map((project, index) => (
                         <div
@@ -206,7 +206,7 @@ const Projects = () => {
             </div>
 
             {/* View All Projects - Premium Button */}
-            <div className="c-space pb-24 flex justify-center">
+            <div className="c-space pb-12 flex justify-center">
                 <button className="group relative px-12 py-5 bg-transparent border border-white/20 text-white overflow-hidden transition-all duration-500 hover:border-white/40">
                     <span className="relative z-10 flex items-center gap-3 text-base uppercase tracking-widest font-light">
                         All Projects
